@@ -1,0 +1,34 @@
+# IDE / środowisko
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+
+# Wirtualne środowiska
+.venv/
+env/
+.ENV/
+venv/
+*.env
+
+# Notebooki
+*.ipynb_checkpoints/
+
+# Dane i wyniki
+*.csv
+*.zip
+*.h5
+*.hdf5
+*.npz
+*.pkl
+*.log
+
+# Systemowe
+.DS_Store
+Thumbs.db
+
+datasets/
+predictions/
+temp/
+delete/

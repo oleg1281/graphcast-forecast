@@ -412,7 +412,7 @@ def load_baza_noa():
                 if coord not in combined.dims and coord != "datetime":
                     combined = combined.drop_vars(coord)
 
-            # Устанавливаем желаемый порядок переменных (пример из эталонного файла)
+            # Устанавливаем желаемый порядок переменных (пример из эталонного файла) 
             desired_order = [
                 'geopotential_at_surface',
                 'land_sea_mask',

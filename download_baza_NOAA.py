@@ -429,7 +429,7 @@ def load_baza_noa():
                 'specific_humidity'
             ]
 
-            # Собираем датасет заново в нужном порядке
+            # Собираем датасет заново в нужном порядке 
             combined_ordered = xr.Dataset({var: combined[var] for var in desired_order if var in combined.data_vars}, coords=combined.coords)
 
             # Сохраняем

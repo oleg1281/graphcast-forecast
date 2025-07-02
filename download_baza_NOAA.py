@@ -12,6 +12,25 @@ def load_baza_noa():
     import os
     import re
 
+    def wait_for_valid_gfs_file(url, min_size=1_000_000, timeout_minutes=5):
+        """
+        Ждёт, пока файл по URL не станет доступен и не достигнет минимального размера.
+        Возвращает True, если файл стал доступен и валиден по размеру, иначе False.
+        """
+        for attempt in range(timeout_minutes):
+            try:
+                resp = requests.head(url)
+                content_length = int(resp.headers.get('Content-Length', 0))
+                if resp.status_code == 200 and content_length >= min_size:
+                    print(f"✅ Файл готов (размер: {content_length} байт)")
+                    return True
+                else:
+                    print(f"⏳ Файл ещё не готов (size={content_length}). Ждём...")
+            except Exception as e:
+                print(f"⚠️ Ошибка запроса HEAD: {e}")
+            time.sleep(60)  # подождать минуту
+        print(f"❌ Файл так и не стал валидным после {timeout_minutes} минут.")
+        return False
 
     def get_last_two_gfs_times(now):
         found = []
@@ -22,8 +41,7 @@ def load_baza_noa():
             hour_str = f"{hour:02d}"
             url = f"https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/gfs.{date_str}/{hour_str}/atmos/"
             test_url = f"{url}gfs.t{hour_str}z.pgrb2.1p00.f000"
-            resp = requests.head(test_url)
-            if resp.status_code == 200:
+            if wait_for_valid_gfs_file(test_url):
                 found.append((dt.date(), hour_str))
             if len(found) == 2:
                 return found[::-1]  # от старого к новому
@@ -412,7 +430,7 @@ def load_baza_noa():
                 if coord not in combined.dims and coord != "datetime":
                     combined = combined.drop_vars(coord)
 
-            # Устанавливаем желаемый порядок переменных (пример из эталонного файла) 
+            # Устанавливаем желаемый порядок переменных (пример из эталонного файла)
             desired_order = [
                 'geopotential_at_surface',
                 'land_sea_mask',

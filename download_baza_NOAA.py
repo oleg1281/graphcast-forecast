@@ -71,7 +71,7 @@ def load_baza_noa():
             current = next_dt
 
         return pairs
-
+# 1
     # ⏱ Стартовая точка
     latest = get_latest_existing_datetime()
 

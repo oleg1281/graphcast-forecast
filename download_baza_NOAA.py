@@ -1,25 +1,33 @@
+
 import time
-from datetime import datetime
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from datetime import datetime, timedelta
+from urllib.parse import urlencode
+import xarray as xr
+import numpy as np
+import pandas as pd
+import os
+import re
 
 
 def load_baza_noa():
-    from datetime import datetime, timedelta
-    from urllib.parse import urlencode
-    import requests
-    import xarray as xr
-    import numpy as np
-    import pandas as pd
-    import os
-    import re
 
     def wait_for_valid_gfs_file(url, min_size=1_000_000, timeout_minutes=5):
         """
         Ждёт, пока файл по URL не станет доступен и не достигнет минимального размера.
         Возвращает True, если файл стал доступен и валиден по размеру, иначе False.
         """
+        session = requests.Session()
+        retries = Retry(total=3, backoff_factor=5, status_forcelist=[502, 503, 504])
+        adapter = HTTPAdapter(max_retries=retries)
+        session.mount("https://", adapter)
+
         for attempt in range(timeout_minutes):
             try:
-                resp = requests.head(url)
+                resp = session.head(url, timeout=10)
+
                 content_length = int(resp.headers.get('Content-Length', 0))
                 if resp.status_code == 200 and content_length >= min_size:
                     print(f"✅ Файл готов (размер: {content_length} байт)")
@@ -29,6 +37,7 @@ def load_baza_noa():
             except Exception as e:
                 print(f"⚠️ Ошибка запроса HEAD: {e}")
             time.sleep(60)  # подождать минуту
+
         print(f"❌ Файл так и не стал валидным после {timeout_minutes} минут.")
         return False
 

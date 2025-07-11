@@ -467,7 +467,14 @@ def load_baza_noa():
             #-------------------------------------------------------------------------------------------------
 
 while True:
-    load_baza_noa()
+    try:
+        load_baza_noa()
+    except Exception as e:
+        print(f"❌ Ошибка в load_baza_noa(): {e}")
+        print("⏳ Ждём 1 минуту перед повтором...")
+        time.sleep(60)
+        continue  # перезапускаем while True
+
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print(current_time, 'Новых данных нет, ждем 5 минут!')

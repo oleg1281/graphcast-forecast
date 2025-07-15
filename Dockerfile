@@ -15,8 +15,6 @@ COPY . /app
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-RUN pip install netcdf4 h5netcdf
-
 # 📌 Удаляем старый JAX и JAXLIB (если есть)
 RUN pip uninstall -y jax jaxlib
 

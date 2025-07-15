@@ -461,7 +461,7 @@ def load_baza_noa():
 
             # Сохраняем
             combined_ordered.to_netcdf(f"w:/Postprocesing/Oleh Bedenok/GRAPHCAST/NOAA/data_NOAA/NOAA_{times[0][0]}_{times[0][1]}h00m_{times[1][0]}_{times[1][1]}h00m.nc")
-            combined_ordered.to_netcdf(f"c:/Users/obedenok/PycharmProjects/Graphcast/delete/NOAA_{times[0][0]}_{times[0][1]}h00m_{times[1][0]}_{times[1][1]}h00m.nc")
+            #combined_ordered.to_netcdf(f"c:/Users/obedenok/PycharmProjects/Graphcast/delete/NOAA_{times[0][0]}_{times[0][1]}h00m_{times[1][0]}_{times[1][1]}h00m.nc")
             print(f"✅ Файл сохранён в w:/Postprocesing/Oleh Bedenok/GRAPHCAST/NOAA/data_NOAA/NOAA_{times[0][0]}_{times[0][1]}h00m_{times[1][0]}_{times[1][1]}h00m.nc")
 
             #-------------------------------------------------------------------------------------------------

@@ -789,7 +789,7 @@ while True:
     from datetime import datetime
 
     # 📁 Пути
-    source_folder = "/app/delete"  # сюда ты, видимо, кладёшь временные файлы
+    source_folder = "/app/data_NOAA"  # временные файлы
     target_dataset_folder = "/app/datasets"  # не Windows путь!
     predictions_folder = "/app/predictions"
 
